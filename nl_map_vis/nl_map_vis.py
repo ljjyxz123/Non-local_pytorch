@@ -15,6 +15,8 @@ def vis_nl_map(img_path, nl_map_path, vis_size=(56, 56)):
         os.mkdir(dst_dir)
 
     img = cv2.imread(img_path, 1)
+    print('image_path: ', img_path)
+    print('img: ', img.shape)
     img = cv2.resize(img, dsize=vis_size)
     h, w, c = img.shape
 
@@ -51,3 +53,5 @@ def vis_nl_map(img_path, nl_map_path, vis_size=(56, 56)):
 if __name__ == '__main__':
     vis_nl_map(img_path='sample.png', nl_map_path='nl_map_1.npy', vis_size=(56, 56))
     vis_nl_map(img_path='sample.png', nl_map_path='nl_map_2.npy', vis_size=(56, 56))
+    # vis_nl_map(img_path='sample-c.png', nl_map_path='nl_map_1.npy', vis_size=(56, 56))
+    # vis_nl_map(img_path='sample-c.png', nl_map_path='nl_map_2.npy', vis_size=(56, 56))

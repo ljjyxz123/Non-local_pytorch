@@ -1,0 +1,6 @@
+checkpoint/
+data/
+weights/
+__pycache__/
+mnist/
+models/__pycache__/

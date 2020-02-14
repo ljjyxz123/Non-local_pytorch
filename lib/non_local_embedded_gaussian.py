@@ -75,21 +75,34 @@ class _NonLocalBlockND(nn.Module):
         """
 
         batch_size = x.size(0)
+        # print('x: ', x.size())
 
         g_x = self.g(x).view(batch_size, self.inter_channels, -1)
+        # print('g_x1: ', g_x.size())
         g_x = g_x.permute(0, 2, 1)
+        # print('g_x2: ', g_x.size())
 
         theta_x = self.theta(x).view(batch_size, self.inter_channels, -1)
+        # print('theta_x1: ', theta_x.size())
         theta_x = theta_x.permute(0, 2, 1)
+        # print('theta_x2: ', theta_x.size())
         phi_x = self.phi(x).view(batch_size, self.inter_channels, -1)
+        # print('phi_x: ', phi_x.size())
         f = torch.matmul(theta_x, phi_x)
+        # print('f: ', f.size())
         f_div_C = F.softmax(f, dim=-1)
+        # print('f_div_C: ', f_div_C.size())
 
         y = torch.matmul(f_div_C, g_x)
+        # print('y1: ', y.size())
         y = y.permute(0, 2, 1).contiguous()
+        # print('y2: ', y.size())
         y = y.view(batch_size, self.inter_channels, *x.size()[2:])
+        # print('y3: ', y.size())
         W_y = self.W(y)
+        # print('W_y: ', W_y.size())
         z = W_y + x
+        # print('z: ', z.size())
 
         if return_nl_map:
             return z, f_div_C

@@ -20,6 +20,7 @@ train_batch_num = len(train_loader)
 test_batch_num = len(test_loader)
 
 net = Network()
+print('net: ', net)
 if torch.cuda.is_available():
     net = nn.DataParallel(net)
     net.cuda()
@@ -75,7 +76,7 @@ for epoch_index in range(10):
     print('[Test] epoch[%d/%d] acc:%.4f%% loss:%.4f\n'
           % (epoch_index, 10, mean_acc * 100, mean_loss.item()))
 
-# weight_path = 'weights/net.pth'
-# print('Save Net weights to', weight_path)
-# net.cpu()
-# torch.save(net.state_dict(), weight_path)
+weight_path = 'weights/net_new.pth'
+print('Save Net weights to', weight_path)
+net.cpu()
+torch.save(net.state_dict(), weight_path)

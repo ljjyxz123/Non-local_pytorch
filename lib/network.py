@@ -32,6 +32,14 @@ class Network(nn.Module):
             nn.MaxPool2d(2),
         )
 
+        # self.nl_3 = NONLocalBlock2D(in_channels=128)
+        # self.conv_4 = nn.Sequential(
+        #     nn.Conv2d(in_channels=128, out_channels=256, kernel_size=3, stride=1, padding=1),
+        #     nn.BatchNorm2d(256),
+        #     nn.ReLU(),
+        #     nn.MaxPool2d(2),
+        # )
+
         self.fc = nn.Sequential(
             nn.Linear(in_features=128*3*3, out_features=256),
             nn.ReLU(),
@@ -42,15 +50,22 @@ class Network(nn.Module):
 
     def forward(self, x):
         batch_size = x.size(0)
+        # print('x.size: ', x.size())
 
         feature_1 = self.conv_1(x)
         nl_feature_1 = self.nl_1(feature_1)
+        # print('con1_out: ', feature_1.size())
+        # print('nl_1_out: ', nl_feature_1.size())
 
         feature_2 = self.conv_2(nl_feature_1)
         nl_feature_2 = self.nl_2(feature_2)
+        # print('con2_out: ', feature_2.size())
+        # print('nl_2_out: ', nl_feature_2.size())
 
         output = self.conv_3(nl_feature_2).view(batch_size, -1)
+        # print('conv3_out: ', output.size())
         output = self.fc(output)
+        # print('fc_out: ', output.size())
 
         return output
 
@@ -62,6 +77,9 @@ class Network(nn.Module):
 
         feature_2 = self.conv_2(nl_feature_1)
         nl_feature_2, nl_map_2 = self.nl_2(feature_2, return_nl_map=True)
+
+        # feature_3 = self.conv_3(nl_feature_2)
+        # nl_feature_3, nl_map_3 = self.nl_3(feature_3, return_nl_map=True)
 
         output = self.conv_3(nl_feature_2).view(batch_size, -1)
         output = self.fc(output)
