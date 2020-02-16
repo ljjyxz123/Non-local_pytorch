@@ -21,7 +21,8 @@ test_batch_num = len(test_loader)
 
 net = Network()
 print('net: ', net)
-if torch.cuda.is_available():
+# if torch.cuda.is_available():
+if False:
     net = nn.DataParallel(net)
     net.cuda()
 
@@ -34,7 +35,8 @@ for epoch_index in range(10):
     torch.set_grad_enabled(True)
     net.train()
     for train_batch_index, (img_batch, label_batch) in enumerate(train_loader):
-        if torch.cuda.is_available():
+        # if torch.cuda.is_available():
+        if False:
             img_batch = img_batch.cuda()
             label_batch = label_batch.cuda()
 
@@ -54,7 +56,8 @@ for epoch_index in range(10):
     total_sample = 0
 
     for test_batch_index, (img_batch, label_batch) in enumerate(test_loader):
-        if torch.cuda.is_available():
+        # if torch.cuda.is_available():
+        if False:
             img_batch = img_batch.cuda()
             label_batch = label_batch.cuda()
 
